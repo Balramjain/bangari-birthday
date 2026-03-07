@@ -2,28 +2,32 @@
 
 This project is a static multi-page website.
 
-## Core Pages
-- `index.html`: Main landing page with splash, music toggle, quote-scroll experience, and bottom action buttons.
-- `surprise.html`: Proposal/birthday interaction page with `Yes` video flow and runaway `No` button.
-- `game.html`: Cat platformer mini-game page.
-- `memes.html`: Meme navigation page.
-- `cat-wall.html`: Cat GIF wall page.
-- `videos.html`: Placeholder for future video content.
-- `index_old.html`: Older snapshot kept as backup/reference.
+## Core Pages (`html/`)
+- `html/index.html`: Main landing page with splash, music toggle, quote-scroll experience, and bottom action buttons.
+- `html/surprise.html`: Proposal/birthday interaction page with `Yes` video flow and runaway `No` button.
+- `html/game.html`: Cat platformer mini-game page.
+- `html/memes.html`: Meme navigation page.
+- `html/cat-wall.html`: Cat GIF wall page.
+- `html/videos.html`: Placeholder for future video content.
 
-## Styling
-- `index.css`: Main page animations, quote transitions, responsive/mobile performance tuning.
-- `style.css`: Styles used by legacy side pages (`memes.html`, `cat-wall.html`).
+## Styling (`css/`)
+- `css/index.css`: Main page animations, quote transitions, responsive/mobile performance tuning.
+- `css/style.css`: Styles used by legacy side pages (`memes.html`, `cat-wall.html`).
 
-## Scripts and Automation
+## Scripts And Automation
 - `sync-to-github.ps1`: Sync script that mirrors this folder into `bangari-birthday/pengu-birthday` on GitHub (handles add/edit/delete).
-- `script.js`: Legacy/unused local script (intentionally not used in current main flow).
 
 ## Assets
-- `assets/`: Game assets and video placeholder location (`proposal.mp4` can be added here).
+- `audio/`: Background audio files.
+- `video/`: Video files (`proposal.mp4` placeholder location).
+- `assets/`: Game assets.
 - `stickers/`: Quote images/sticker images.
 - `fonts/`: Local custom fonts.
-- `blue.mp3`: Background audio for main page.
+
+## Cleanup Applied
+- Removed unused legacy files:
+  - `script.js`
+  - `index_old.html`
 
 ## Recommended Update Flow
 1. Make changes locally.
