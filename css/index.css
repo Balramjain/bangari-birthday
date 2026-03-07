@@ -5,6 +5,12 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: "Cookiemonster";
+  src: url("../fonts/Cookiemonster-gv11.ttf") format("truetype");
+  font-display: swap;
+}
+
 /* BASE */
 html {
   scroll-snap-type: y mandatory;
@@ -108,18 +114,39 @@ body > *:not(.bg-effects) {
   animation: quote-pastel 16s ease-in-out infinite;
 }
 
-.quote-block:nth-child(2n) {
+.quote-block.theme-rose {
   --c1: rgba(255, 238, 244, 0.84);
-  --c2: rgba(236, 255, 247, 0.88);
-  --c3: rgba(232, 242, 255, 0.84);
+  --c2: rgba(255, 248, 252, 0.9);
+  --c3: rgba(248, 233, 244, 0.82);
   animation-duration: 18s;
 }
 
-.quote-block:nth-child(3n) {
-  --c1: rgba(246, 240, 255, 0.84);
-  --c2: rgba(236, 248, 255, 0.88);
-  --c3: rgba(255, 245, 236, 0.84);
+.quote-block.theme-mint {
+  --c1: rgba(233, 253, 244, 0.84);
+  --c2: rgba(242, 255, 251, 0.9);
+  --c3: rgba(225, 246, 238, 0.82);
+  animation-duration: 19s;
+}
+
+.quote-block.theme-lilac {
+  --c1: rgba(242, 236, 255, 0.84);
+  --c2: rgba(250, 246, 255, 0.9);
+  --c3: rgba(236, 229, 252, 0.82);
   animation-duration: 20s;
+}
+
+.quote-block.theme-peach {
+  --c1: rgba(255, 242, 231, 0.84);
+  --c2: rgba(255, 249, 242, 0.9);
+  --c3: rgba(250, 235, 221, 0.82);
+  animation-duration: 17s;
+}
+
+.quote-block.theme-sky {
+  --c1: rgba(233, 245, 255, 0.84);
+  --c2: rgba(244, 251, 255, 0.9);
+  --c3: rgba(227, 240, 252, 0.82);
+  animation-duration: 21s;
 }
 
 /* Sticker image: scales to fit any ratio */
@@ -139,6 +166,7 @@ body > *:not(.bg-effects) {
 }
 
 .quote-block .quote {
+  font-family: "Wildcrazy", sans-serif;
   max-width: 28ch;
   font-size: clamp(1.25rem, 2.8vw, 2rem);
   line-height: 1.45;
@@ -160,6 +188,22 @@ body > *:not(.bg-effects) {
   transform: scale(1) translateY(0) rotate(0deg);
   filter: blur(0) saturate(1);
   animation: quote-pastel 16s ease-in-out infinite, quote-pop-in 1.05s cubic-bezier(0.2, 0.85, 0.22, 1.1);
+}
+
+.quote-block.anim-pop.revealed {
+  animation: quote-pastel 16s ease-in-out infinite, quote-pop-in 1.05s cubic-bezier(0.2, 0.85, 0.22, 1.1);
+}
+
+.quote-block.anim-sway.revealed {
+  animation: quote-pastel 17s ease-in-out infinite, quote-sway-in 1s cubic-bezier(0.2, 0.8, 0.25, 1.08);
+}
+
+.quote-block.anim-bloom.revealed {
+  animation: quote-pastel 18s ease-in-out infinite, quote-bloom-in 1.03s cubic-bezier(0.22, 0.88, 0.2, 1.06);
+}
+
+.quote-block.anim-wobble.revealed {
+  animation: quote-pastel 19s ease-in-out infinite, quote-wobble-in 1s cubic-bezier(0.2, 0.82, 0.24, 1.1);
 }
 
 .quote-block.revealed .sticker {
@@ -233,6 +277,7 @@ body > *:not(.bg-effects) {
   align-items: center;
   text-decoration: none;
   color: #333;
+  font-family: "Cookiemonster", sans-serif;
   font-weight: 600;
   font-size: 1.1rem;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
@@ -365,6 +410,25 @@ body > *:not(.bg-effects) {
   100% { transform: scale(1) translateY(0) rotate(0deg); }
 }
 
+@keyframes quote-sway-in {
+  0% { transform: scale(0.92) translateY(30px) rotate(-1.1deg); }
+  55% { transform: scale(1.01) translateY(-2px) rotate(0.8deg); }
+  100% { transform: scale(1) translateY(0) rotate(0deg); }
+}
+
+@keyframes quote-bloom-in {
+  0% { transform: scale(0.78) translateY(28px); }
+  65% { transform: scale(1.03) translateY(-2px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+@keyframes quote-wobble-in {
+  0% { transform: scale(0.9) translateY(30px) rotate(-1.5deg); }
+  35% { transform: scale(1.02) translateY(-3px) rotate(1deg); }
+  70% { transform: scale(0.995) translateY(1px) rotate(-0.4deg); }
+  100% { transform: scale(1) translateY(0) rotate(0deg); }
+}
+
 @keyframes sticker-pop-in {
   0% {
     transform: scale(0.78) translateY(22px) rotate(-3deg);
@@ -396,14 +460,13 @@ body > *:not(.bg-effects) {
 /* Mobile performance tuning for smoother quote scroll */
 @media (max-width: 768px) {
   html {
-    scroll-snap-type: y proximity;
-    scroll-behavior: auto;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
   }
 
   .quote-block {
     backdrop-filter: none;
     filter: none;
-    animation: none;
     transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
@@ -413,7 +476,7 @@ body > *:not(.bg-effects) {
   }
 
   .quote-block.revealed {
-    animation: quote-pop-in 0.8s cubic-bezier(0.2, 0.85, 0.22, 1.1);
+    animation: quote-pastel 15s ease-in-out infinite, quote-pop-in 0.8s cubic-bezier(0.2, 0.85, 0.22, 1.1);
   }
 }
 
