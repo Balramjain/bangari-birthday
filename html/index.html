@@ -81,6 +81,7 @@
     const music = document.getElementById("bgMusic");
     const btn = document.getElementById("musicBtn");
     const quickNavBtn = document.getElementById("quickNavBtn");
+    const scrollTargetKey = "scrollTarget";
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
@@ -88,7 +89,25 @@
     const hasVisited = localStorage.getItem("hasVisited");
     const musicMuted = localStorage.getItem("musicMuted");
     const cameFromPage = sessionStorage.getItem("cameFromPage") === "true";
+    const scrollTarget = sessionStorage.getItem(scrollTargetKey);
     sessionStorage.removeItem("cameFromPage"); // one-time flag for current tab only
+
+    function setReturnTarget(id) {
+      sessionStorage.setItem("cameFromPage", "true");
+      sessionStorage.setItem(scrollTargetKey, id);
+    }
+
+    function scrollToReturnTarget() {
+      if (cameFromPage && scrollTarget) {
+        const el = document.getElementById(scrollTarget);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+        sessionStorage.removeItem(scrollTargetKey);
+        return true;
+      }
+      return false;
+    }
 
     function forceTopNow() {
       window.scrollTo(0, 0);
@@ -116,10 +135,12 @@
         music.play().catch(() => {});
       }
 
-      // Auto scroll to buttons only when coming back from a button click
+      // Auto scroll to correct button only when coming back from a button click
       if (cameFromPage) {
         setTimeout(() => {
-          document.getElementById("actions").scrollIntoView({ behavior: "smooth", block: "start" });
+          if (!scrollToReturnTarget()) {
+            document.getElementById("actions").scrollIntoView({ behavior: "smooth", block: "start" });
+          }
         }, 500);
       } else {
         forceTopOnFreshOpen();
@@ -130,7 +151,9 @@
     window.addEventListener("pageshow", () => {
       if (cameFromPage) {
         setTimeout(() => {
-          document.getElementById("actions").scrollIntoView({ behavior: "smooth", block: "start" });
+          if (!scrollToReturnTarget()) {
+            document.getElementById("actions").scrollIntoView({ behavior: "smooth", block: "start" });
+          }
         }, 100);
       } else {
         forceTopOnFreshOpen();
@@ -321,10 +344,135 @@
     <h2>Choose your purr-venture 😼</h2>
 
     <div class="button-grid">
-      <a href="memes.html?v=20260308" class="cat-button pink" onclick="sessionStorage.setItem('cameFromPage','true')">😹<span>Neon Meowtrix</span></a>
-      <a href="game.html?v=20260308" class="cat-button blue" onclick="sessionStorage.setItem('cameFromPage','true')">🎮<span>Game</span></a>
-      <a href="message.html?v=20260308" class="cat-button yellow" onclick="sessionStorage.setItem('cameFromPage','true')">🎵<span>Message</span></a>
-      <a href="surprise.html?v=20260308" class="cat-button purple" onclick="sessionStorage.setItem('cameFromPage','true')">💌<span>Surprise</span></a>
+      <a id="btn-neon-meowtrix" href="memes.html?v=20260308" class="cat-button pink" onclick="setReturnTarget('btn-neon-meowtrix')">😹<span>Neon Meowtrix</span></a>
+      <a id="btn-game" href="game.html?v=20260308" class="cat-button blue" onclick="setReturnTarget('btn-game')">🎮<span>Game</span></a>
+      <a id="btn-message" href="message.html?v=20260308" class="cat-button yellow" onclick="setReturnTarget('btn-message')">🎵<span>Message</span></a>
+      <a id="btn-surprise" href="surprise.html?v=20260308" class="cat-button purple" onclick="setReturnTarget('btn-surprise')">💌<span>Surprise</span></a>
+    </div>
+  </section>
+
+  <!-- 🌈 MORE FEATURES -->
+  <section class="section actions more-actions" id="more-actions">
+    <h2>MORE MAGIC ✨</h2>
+
+    <div class="feature-groups">
+      <div class="feature-group">
+        <h3 class="feature-title">Cute & Personal</h3>
+        <div class="feature-grid">
+          <a id="btn-love-letter" class="feature-btn" href="love-letter.html?v=20260315" onclick="setReturnTarget('btn-love-letter')">
+            <strong>Love Letter</strong>
+            <span>Typewriter reveal</span>
+          </a>
+          <a id="btn-photo-gallery" class="feature-btn" href="photo-gallery.html?v=20260315" onclick="setReturnTarget('btn-photo-gallery')">
+            <strong>Photo Gallery</strong>
+            <span>Slideshow moments</span>
+          </a>
+          <a id="btn-reasons" class="feature-btn" href="reasons.html?v=20260315" onclick="setReturnTarget('btn-reasons')">
+            <strong>Reasons I Love You</strong>
+            <span>Scroll reveal list</span>
+          </a>
+          <a id="btn-memory-timeline" class="feature-btn" href="memory-timeline.html?v=20260315" onclick="setReturnTarget('btn-memory-timeline')">
+            <strong>Memory Timeline</strong>
+            <span>Milestone dates</span>
+          </a>
+          <a id="btn-compliment-generator" class="feature-btn" href="compliment-generator.html?v=20260315" onclick="setReturnTarget('btn-compliment-generator')">
+            <strong>Compliment Generator</strong>
+            <span>Random sweetness</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="feature-group">
+        <h3 class="feature-title">Interactive & Fun</h3>
+        <div class="feature-grid">
+          <a id="btn-catch-hearts" class="feature-btn" href="catch-hearts.html?v=20260315" onclick="setReturnTarget('btn-catch-hearts')">
+            <strong>Catch the Hearts</strong>
+            <span>Tap to score</span>
+          </a>
+          <a id="btn-scratch-card" class="feature-btn" href="scratch-card.html?v=20260315" onclick="setReturnTarget('btn-scratch-card')">
+            <strong>Scratch Card</strong>
+            <span>Reveal a message</span>
+          </a>
+          <a id="btn-relationship-quiz" class="feature-btn" href="relationship-quiz.html?v=20260315" onclick="setReturnTarget('btn-relationship-quiz')">
+            <strong>Relationship Quiz</strong>
+            <span>How well you know us</span>
+          </a>
+          <a id="btn-spin-wheel" class="feature-btn" href="spin-wheel.html?v=20260315" onclick="setReturnTarget('btn-spin-wheel')">
+            <strong>Spin the Wheel</strong>
+            <span>Date ideas + dares</span>
+          </a>
+          <a id="btn-click-the-cat" class="feature-btn" href="click-the-cat.html?v=20260315" onclick="setReturnTarget('btn-click-the-cat')">
+            <strong>Click the Cat</strong>
+            <span>Playful chase</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="feature-group">
+        <h3 class="feature-title">Visual & Aesthetic</h3>
+        <div class="feature-grid">
+          <a id="btn-constellation-canvas" class="feature-btn" href="constellation-canvas.html?v=20260315" onclick="setReturnTarget('btn-constellation-canvas')">
+            <strong>Constellation Canvas</strong>
+            <span>Connect the stars</span>
+          </a>
+          <a id="btn-petals-fall" class="feature-btn" href="petals-fall.html?v=20260315" onclick="setReturnTarget('btn-petals-fall')">
+            <strong>Petals Falling</strong>
+            <span>Soft rain effect</span>
+          </a>
+          <a id="btn-polaroid-wall" class="feature-btn" href="polaroid-wall.html?v=20260315" onclick="setReturnTarget('btn-polaroid-wall')">
+            <strong>Polaroid Wall</strong>
+            <span>Pinned memories</span>
+          </a>
+          <a id="btn-color-mood" class="feature-btn" href="color-mood.html?v=20260315" onclick="setReturnTarget('btn-color-mood')">
+            <strong>Color Mood</strong>
+            <span>Theme changer</span>
+          </a>
+          <a id="btn-type-name-fireworks" class="feature-btn" href="type-name-fireworks.html?v=20260315" onclick="setReturnTarget('btn-type-name-fireworks')">
+            <strong>Typing Her Name</strong>
+            <span>Fireworks react</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="feature-group">
+        <h3 class="feature-title">Mujik</h3>
+        <div class="feature-grid">
+          <a id="btn-playlist" class="feature-btn" href="playlist.html?v=20260315" onclick="setReturnTarget('btn-playlist')">
+            <strong>Playlist Page</strong>
+            <span>Your shared songs</span>
+          </a>
+          <a id="btn-voice-message" class="feature-btn" href="voice-message.html?v=20260315" onclick="setReturnTarget('btn-voice-message')">
+            <strong>Voice Message</strong>
+            <span>Play a recording</span>
+          </a>
+          <a id="btn-music-visualizer" class="feature-btn" href="music-visualizer.html?v=20260315" onclick="setReturnTarget('btn-music-visualizer')">
+            <strong>Music Visualizer</strong>
+            <span>Blue.mp3 vibes</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="feature-group">
+        <h3 class="feature-title">Nego</h3>
+        <div class="feature-grid">
+          <a id="btn-cat-cursor" class="feature-btn" href="cat-cursor.html?v=20260315" onclick="setReturnTarget('btn-cat-cursor')">
+            <strong>Cat Cursor</strong>
+            <span>Paw follow</span>
+          </a>
+          <a id="btn-cat-facts" class="feature-btn" href="cat-facts.html?v=20260315" onclick="setReturnTarget('btn-cat-facts')">
+            <strong>Cat Facts</strong>
+            <span>Secretly about her</span>
+          </a>
+          <a id="btn-virtual-pet-cat" class="feature-btn" href="virtual-pet-cat.html?v=20260315" onclick="setReturnTarget('btn-virtual-pet-cat')">
+            <strong>Virtual Pet</strong>
+            <span>Feed + pet reactions</span>
+          </a>
+          <a id="btn-meow-button" class="feature-btn" href="meow-button.html?v=20260315" onclick="setReturnTarget('btn-meow-button')">
+            <strong>Meow Button</strong>
+            <span>Satisfying sound</span>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -418,7 +566,9 @@
   <!-- 🎬 SCROLL REVEAL (kept inside body for valid structure) -->
   <script>
     const quoteBlocks = document.querySelectorAll(".quote-block");
-    const revealEls = document.querySelectorAll(".quote-block, .actions h2, .button-grid");
+    const revealEls = document.querySelectorAll(
+      ".quote-block, .actions h2, .button-grid, .feature-title, .feature-grid"
+    );
     quoteBlocks.forEach((el, i) => {
       el.style.setProperty("--stagger", `${i * 70}ms`);
     });

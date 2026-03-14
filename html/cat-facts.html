@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>Cat Facts, But It Is You</title>
+  <style>
+    @font-face {
+      font-family: "CutiePatootie";
+      src: url("../fonts/CutiePatootie-Rgjv.ttf") format("truetype");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Wildcrazy";
+      src: url("../fonts/Wildcrazy-WKYO.ttf") format("truetype");
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Cookiemonster";
+      src: url("../fonts/Cookiemonster-gv11.ttf") format("truetype");
+      font-display: swap;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fef5ff;
+      --bg-2: #eefbff;
+      --card: #ffffffcc;
+      --ink: #2a2a3b;
+      --accent: #e6b7ff;
+      --accent-2: #b7e5ff;
+    }
+
+    body {
+      font-family: "Wildcrazy", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(140deg, var(--bg), var(--bg-2));
+      min-height: 100vh;
+      padding: 24px 16px 80px;
+      overflow-x: hidden;
+    }
+
+    body > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .bg-sparkles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .bg-sparkles span {
+      position: absolute;
+      width: var(--size);
+      height: var(--size);
+      border-radius: 999px;
+      background: var(--accent-2);
+      opacity: 0.45;
+      filter: blur(0.2px);
+      animation: float 10s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) translateX(0) scale(1); }
+      50% { transform: translateY(-16px) translateX(10px) scale(1.06); }
+      100% { transform: translateY(0) translateX(0) scale(1); }
+    }
+
+    header {
+      text-align: center;
+      margin: 12px auto 22px;
+      max-width: 900px;
+    }
+
+    header h1 {
+      font-family: "CutiePatootie", cursive;
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
+    }
+
+    header p {
+      margin-top: 8px;
+      font-size: 1.1rem;
+      opacity: 0.8;
+    }
+.back-btn {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      z-index: 30;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-family: "CutiePatootie", cursive;
+      font-size: 1.1rem;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.86);
+      color: #000;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
+    }
+    .panel {
+      width: min(980px, 92vw);
+      margin: 0 auto;
+      padding: 28px;
+      border-radius: 26px;
+      background-image: url("https://images.unsplash.com/photo-1761888855214-0458bca5965b?auto=format&fit=crop&fm=jpg&q=80&w=2000");
+      background-size: cover;
+      background-position: center;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+      min-height: 65vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(150deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78));
+    }
+
+    .panel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .mini-panel {
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    @media (max-width: 700px) {
+      .panel {
+        min-height: 70vh;
+        padding: 22px;
+      }
+    }
+.row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .primary-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-family: "Cookiemonster", sans-serif;
+      font-size: 1.05rem;
+      cursor: pointer;
+      background: var(--accent);
+      color: #2b2b3a;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 26px rgba(0, 0, 0, 0.18);
+    }
+
+    .tiny-btn {
+      border: none;
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-family: "Cookiemonster", sans-serif;
+      cursor: pointer;
+      background: var(--accent-2);
+      color: #2b2b3a;
+    }
+
+    
+  </style>
+</head>
+<body>
+  <div class="bg-sparkles" aria-hidden="true">
+    <span style="--size: 10px; left: 8%; top: 12%;"></span>
+    <span style="--size: 16px; left: 18%; top: 24%;"></span>
+    <span style="--size: 12px; left: 32%; top: 10%;"></span>
+    <span style="--size: 14px; left: 44%; top: 22%;"></span>
+    <span style="--size: 9px; left: 56%; top: 14%;"></span>
+    <span style="--size: 13px; left: 66%; top: 30%;"></span>
+    <span style="--size: 11px; left: 78%; top: 16%;"></span>
+    <span style="--size: 15px; left: 88%; top: 28%;"></span>
+    <span style="--size: 9px; left: 12%; top: 70%;"></span>
+    <span style="--size: 12px; left: 36%; top: 78%;"></span>
+    <span style="--size: 14px; left: 64%; top: 74%;"></span>
+    <span style="--size: 10px; left: 84%; top: 68%;"></span>
+  </div>
+
+  <button class="back-btn" onclick="sessionStorage.setItem('cameFromPage','true'); location.href='index.html?v=20260315';">
+    Go Back
+  </button>
+
+  <header>
+<div class="badge">Fun</div>
+      <div class="badge">Interactive</div>
+    </div>
+    <h1>Cat Facts, But It Is You</h1>
+    <p>Click for a new soft fact every time.</p>
+  </header>
+
+  <section class="panel">
+    <div class="row"><div class="mini-panel" id="catFact">Click to get a fact.</div><button class="primary-btn" id="catFactBtn">New Fact</button></div>
+  </section>
+
+  <script>
+    const facts = [
+      "Cats make little trill sounds when they are excited to see you.",
+      "Slow blinks are a cat way of saying I trust you.",
+      "A cat head bump is a tiny hug.",
+      "Purring can be comfort, joy, or love.",
+      "Cats remember gentle voices best.",
+      "Cats choose their favorite human with intention.",
+      "A warm lap is cat royalty.",
+      "Cats nap to dream about adventures.",
+      "A tail curl can mean hello.",
+      "Cats like routines because they feel safe.",
+      "A cat chirp is a tiny burst of excitement.",
+      "Cats love sun spots like little happiness pools.",
+      "Kneading is a comfort habit from kitten days.",
+      "Cats listen for familiar footsteps.",
+      "Whiskers are sensitive feelers for the world.",
+      "Cats can sense calm energy quickly.",
+      "A cat slow walk is a sign of trust.",
+      "Cats groom friends they adore.",
+      "A cat blink is a soft kiss.",
+      "Cats prefer gentle, steady affection.",
+      "Cats are pros at cozy corners.",
+      "A cat meow can mean I missed you.",
+      "Cats love quiet, happy spaces.",
+      "Cats communicate with tiny ear twitches.",
+      "A cat tail up is a friendly hello.",
+      "Cats learn your mood and mirror it.",
+      "Cats like soft blankets the most.",
+      "A cat will follow the person they feel safe with.",
+      "Cats do zoomies when they are full of joy.",
+      "Cats love a calm bedtime routine.",
+      "A cat nose boop is a trust test.",
+      "Cats remember kindness for a long time.",
+      "Cats purr louder for their favorite humans.",
+      "Cats can be shy but deeply loyal.",
+      "Cats do tiny love bites when playful.",
+      "Cats like being spoken to softly.",
+      "Cats can tell when you are gentle.",
+      "Cats like clean, cozy spaces.",
+      "Cats prefer a warm, soft tone of voice.",
+      "Cats can recognize your scent quickly.",
+      "Cats sit nearby to show quiet love.",
+      "Cats feel safe around steady routines.",
+      "Cats can sense when you need comfort.",
+      "Cats love slow, soft petting.",
+      "Cats enjoy window watching like a little movie.",
+      "Cats do little hops when excited.",
+      "Cats like tiny toys they can chase.",
+      "Cats nap more when they feel safe.",
+      "Cats like gentle forehead kisses.",
+      "Cats are little bundles of calm and mischief."
+    ];
+
+    document.getElementById("catFactBtn").addEventListener("click", () => {
+      const pick = facts[Math.floor(Math.random() * facts.length)];
+      document.getElementById("catFact").textContent = pick;
+    });
+  </script>
+</body>
+</html>
