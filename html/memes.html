@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -219,7 +219,7 @@
     customizerInput.addEventListener("input", (e) => updateText(e.target.value));
     customizerInput.addEventListener("blur", () => customizer.classList.remove("open"));
 
-    // IntersectionObserver — fires when each section hits the viewport
+    // IntersectionObserver â€” fires when each section hits the viewport
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.intersectionRatio >= 0.6) {
@@ -233,3 +233,6 @@
   </script>
 </body>
 </html>
+
+
+
