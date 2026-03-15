@@ -32,14 +32,19 @@
   <div id="splash" style="
     position: fixed;
     inset: 0;
-    background: #fff0f8;
+    background: #ecb4d2;
     z-index: 9999;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-  " onclick="startSite()">
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    pointer-events: all;
+    user-select: none;
+    -webkit-user-select: none;
+  " onclick="startSite()" ontouchend="this.ontouchend=null; startSite()">
     <div style="font-size: 4.5rem;">🎀</div>
     <h2 style="font-family: 'CutiePatootie', cursive; font-size: 3rem; margin: 16px 0 10px;">Heyy cutiee!!</h2>
     <p style="font-size: 1.5rem; opacity: 0.6;">tap anywhere to enter 💖</p>
@@ -165,13 +170,12 @@
     });
 
     function startSite() {
+      if (document.getElementById("splash").style.display === "none") return;
       localStorage.setItem("hasVisited", "true");
       localStorage.setItem("musicMuted", "false");
-
       document.getElementById("splash").style.display = "none";
-
-      music.play();
       btn.innerText = "🔊";
+      music.play().catch(() => {});
     }
 
     function toggleMusic() {
