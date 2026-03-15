@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doggo Gallery</title>
+  <style>
+    @font-face { font-family:"CutiePatootie"; src:url("../fonts/CutiePatootie-Rgjv.ttf") format("truetype"); }
+    @font-face { font-family:"Wildcrazy";     src:url("../fonts/Wildcrazy-WKYO.ttf")     format("truetype"); }
+    @font-face { font-family:"Cookiemonster"; src:url("../fonts/Cookiemonster-gv11.ttf") format("truetype"); }
+
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    body{
+      font-family:"Wildcrazy",sans-serif;
+      background:linear-gradient(140deg,#fff7e8,#e9fff1);
+      color:#2d1f0e;
+      min-height:100vh;
+      padding:24px 16px 90px;
+    }
+    header{ text-align:center; margin-bottom:18px; }
+    h1{
+      font-family:"CutiePatootie",cursive;
+      font-size:clamp(2rem,6vw,3.2rem);
+      color:#8a5a2e;
+    }
+    p{ margin-top:6px; opacity:0.8; }
+    .gallery{
+      width:min(1100px,92vw);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:16px;
+    }
+    .card{
+      background:#fff;
+      border-radius:16px;
+      padding:12px;
+      box-shadow:0 12px 24px rgba(0,0,0,0.12);
+      display:flex; flex-direction:column; gap:10px;
+      align-items:center;
+    }
+    .frame{
+      width:100%; height:180px;
+      border-radius:12px;
+      background:linear-gradient(135deg,#fff1d6,#e9ffe8);
+      display:grid; place-items:center;
+      font-family:"Cookiemonster",sans-serif;
+      color:#6a3a2e;
+    }
+    .caption{
+      font-family:"Cookiemonster",sans-serif;
+      font-size:0.95rem;
+      color:#6a3a2e;
+    }
+    .back-btn{
+      position:fixed; left:20px; bottom:20px; z-index:30;
+      border:none; border-radius:999px; padding:10px 20px;
+      font-family:"CutiePatootie",cursive; font-size:1rem; cursor:pointer;
+      background:#fff; color:#8a5a2e;
+      box-shadow:0 8px 22px rgba(0,0,0,0.18);
+      transition:transform 0.2s, box-shadow 0.2s;
+    }
+    .back-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 26px rgba(0,0,0,0.22); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Doggo Gallery</h1>
+    <p>A happy wall for your best doggo moments.</p>
+  </header>
+
+  <section class="gallery">
+    <div class="card"><div class="frame">Dog Photo 1</div><div class="caption">Walkies day</div></div>
+    <div class="card"><div class="frame">Dog Photo 2</div><div class="caption">Fetch champion</div></div>
+    <div class="card"><div class="frame">Dog Photo 3</div><div class="caption">Cozy nap</div></div>
+    <div class="card"><div class="frame">Dog Photo 4</div><div class="caption">Puppy eyes</div></div>
+    <div class="card"><div class="frame">Dog Photo 5</div><div class="caption">Treat time</div></div>
+    <div class="card"><div class="frame">Dog Photo 6</div><div class="caption">Tail wags</div></div>
+  </section>
+
+  <button class="back-btn" onclick="sessionStorage.setItem('cameFromPage','true'); location.href='index.html?v=20260315';">Go Back</button>
+</body>
+</html>
