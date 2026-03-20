@@ -29,6 +29,7 @@
       min-height: 100svh;
       padding: 24px 16px 96px;
       color: #34263f;
+      font-size: 1.5rem;
       background:
         radial-gradient(circle at top left, rgba(255, 184, 216, 0.32), transparent 28%),
         radial-gradient(circle at top right, rgba(182, 223, 255, 0.28), transparent 30%),
@@ -39,10 +40,10 @@
     header { text-align: center; margin-bottom: 20px; }
     h1 {
       font-family: "CutiePatootie", cursive;
-      font-size: clamp(2.4rem, 7vw, 4rem);
+      font-size: clamp(3.3rem, 7.8vw, 5.2rem);
       line-height: 1.02;
     }
-    header p { margin-top: 8px; color: #7e6a89; font-size: 1rem; line-height: 1.6; }
+    header p { margin-top: 8px; color: #7e6a89; font-size: 1.5rem; line-height: 1.6; }
 
     .panel {
       border-radius: 30px;
@@ -51,7 +52,7 @@
       box-shadow:
         0 24px 50px rgba(66, 50, 92, 0.12),
         inset 0 1px 0 rgba(255, 255, 255, 0.92);
-      padding: 24px;
+      padding: 30px;
       backdrop-filter: blur(10px);
       display: grid;
       gap: 18px;
@@ -61,14 +62,14 @@
 
     .random-vibe-btn {
       position: relative;
-      min-width: 240px;
-      min-height: 56px;
+      min-width: 320px;
+      min-height: 72px;
       border: none;
       border-radius: 999px;
       padding: 0 30px;
       cursor: pointer;
       color: #fff;
-      font-size: 1.08rem;
+      font-size: 1.55rem;
       background: linear-gradient(135deg, #ff85bb, #ff6fa0, #c97aff, #7ab8ff);
       background-size: 300% 300%;
       animation: rvGrad 4s ease infinite;
@@ -118,17 +119,17 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 7px 16px;
+      padding: 10px 18px;
       border-radius: 999px;
       background: linear-gradient(135deg, rgba(255,133,187,0.18), rgba(122,184,255,0.18));
       border: 1px solid rgba(200, 130, 200, 0.25);
       color: #b55a9a;
-      font-size: 0.9rem;
+      font-size: 1.35rem;
     }
 
     .embed-shell {
-      width: min(100%, 520px);
-      padding: 14px;
+      width: min(100%, 620px);
+      padding: 16px;
       border-radius: 28px;
       background: rgba(255, 255, 255, 0.8);
       border: 1px solid rgba(52, 38, 63, 0.12);
@@ -153,13 +154,22 @@
       z-index: 30;
       border: none;
       border-radius: 999px;
-      padding: 12px 18px;
+      padding: 14px 22px;
       font-family: "CutiePatootie", cursive;
-      font-size: 1.1rem;
+      font-size: 1.55rem;
       cursor: pointer;
       background: rgba(255, 255, 255, 0.9);
       color: #34263f;
       box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
+    }
+
+    @media (max-width: 640px) {
+      body { font-size: 1.16rem; }
+      header p { font-size: 1.18rem; }
+      .panel { padding: 22px; }
+      .random-vibe-btn { min-width: 250px; min-height: 62px; font-size: 1.2rem; }
+      .rv-label { font-size: 1.08rem; }
+      .back-btn { font-size: 1.28rem; }
     }
   </style>
 </head>

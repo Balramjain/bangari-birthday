@@ -15,13 +15,15 @@
 html {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
-  scroll-padding-block: clamp(10px, 2vh, 24px);
+  scroll-padding-block: clamp(8px, 1.6vh, 18px);
+  scrollbar-gutter: stable;
 }
 
 body {
   font-family: "Wildcrazy", "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif;
   color: #2c3e50;
   overflow-x: hidden;
+  overscroll-behavior-y: contain;
   background: rgb(248, 240, 226);
   transition: background 0.25s linear;
   -webkit-font-smoothing: antialiased;
@@ -52,8 +54,8 @@ body > *:not(.bg-effects) {
 
 /* SHARED SECTIONS */
 .section {
-  min-height: 100vh;
-  padding: 80px 20px;
+  min-height: 100svh;
+  padding: clamp(40px, 6vh, 72px) 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -181,14 +183,14 @@ body > *:not(.bg-effects) {
   --c2: rgba(237, 250, 255, 0.88);
   --c3: rgba(233, 242, 255, 0.84);
 
-  min-height: calc(100vh - (var(--quote-outer-gap) * 2));
-  width: min(90vw, 760px);
+  min-height: calc(100svh - (var(--quote-outer-gap) * 2));
+  width: min(88vw, 760px);
   margin: var(--quote-outer-gap) auto;
   padding: clamp(30px, 5vw, 46px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: clamp(18px, 2.8vw, 26px);
   border-radius: 36px;
   background: linear-gradient(155deg, var(--c1), var(--c2), var(--c3));
@@ -326,7 +328,7 @@ body > *:not(.bg-effects) {
 .actions h2 {
   font-family: "CutiePatootie", "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", cursive;
   font-size: 2.4rem;
-  margin-bottom: 50px;
+  margin-bottom: clamp(22px, 4vh, 42px);
   opacity: 0;
   transform: scale(0.85) translateY(60px);
   transition:
@@ -339,11 +341,15 @@ body > *:not(.bg-effects) {
   transform: scale(1) translateY(0);
 }
 
+.actions {
+  padding-block: clamp(28px, 5vh, 48px);
+}
+
 .button-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(140px, 1fr));
-  gap: 30px;
-  max-width: 500px;
+  grid-template-columns: repeat(2, minmax(150px, 1fr));
+  gap: clamp(14px, 2vw, 22px);
+  max-width: min(500px, 78vw);
   width: 100%;
   opacity: 0;
   transform: scale(0.85) translateY(60px);
@@ -359,6 +365,7 @@ body > *:not(.bg-effects) {
 
 .cat-button {
   aspect-ratio: 1 / 1;
+  min-height: clamp(150px, 23vh, 200px);
   border-radius: 25%;
   display: flex;
   flex-direction: column;
@@ -386,8 +393,8 @@ body > *:not(.bg-effects) {
 
 /* FEATURE GROUPS */
 .more-actions {
-  padding-top: 60px;
-  padding-bottom: 120px;
+  padding-top: clamp(34px, 5vh, 56px);
+  padding-bottom: clamp(60px, 8vh, 110px);
 }
 
 .feature-groups {
@@ -700,7 +707,28 @@ body > *:not(.bg-effects) {
     scroll-padding-block: clamp(8px, 1.8vh, 18px);
   }
 
+  .section {
+    min-height: 100dvh;
+    padding: clamp(28px, 5vh, 42px) 16px;
+  }
+
+  .actions {
+    padding-block: clamp(24px, 4.5vh, 36px);
+  }
+
+  .button-grid {
+    grid-template-columns: repeat(2, minmax(130px, 1fr));
+    max-width: 100%;
+    gap: 14px;
+  }
+
+  .cat-button {
+    min-height: clamp(124px, 20vh, 164px);
+    font-size: 0.96rem;
+  }
+
   .quote-block {
+    --quote-outer-gap: clamp(10px, 1.8vh, 18px);
     transition: opacity 0.68s ease, transform 0.68s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
@@ -715,19 +743,33 @@ body > *:not(.bg-effects) {
   }
 
   .quote-block {
-    --quote-outer-gap: clamp(12px, 2.2vh, 20px);
-    width: 92vw;
-    border-radius: 28px;
-    padding: 26px 16px;
+    --quote-outer-gap: clamp(8px, 1.4vh, 14px);
+    min-height: calc(100dvh - (var(--quote-outer-gap) * 2));
+    width: min(94vw, 420px);
+    border-radius: 24px;
+    padding: 20px 14px;
+    gap: 14px;
   }
 
   .quote-block .sticker {
-    width: min(80vw, 280px);
+    width: min(72vw, 240px);
     filter: drop-shadow(0 8px 16px rgba(65, 88, 121, 0.2));
   }
 
   .quote-block .quote {
-    font-size: clamp(1.12rem, 5.2vw, 1.45rem);
+    max-width: 19ch;
+    font-size: clamp(1.02rem, 4.4vw, 1.3rem);
+    line-height: 1.34;
+  }
+
+  .button-grid {
+    gap: 14px;
+  }
+
+  .cat-button {
+    min-height: 120px;
+    border-radius: 28px;
+    font-size: 0.88rem;
   }
 
   .quick-nav-btn {

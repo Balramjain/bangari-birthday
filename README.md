@@ -1,12 +1,77 @@
-# Happy 25th Birthday Bangari 💖
+# Happy 25th Birthday Bangari
 
-A custom-built birthday website made with love for the most special person in my world.
+A handmade birthday website built with HTML, CSS, and vanilla JavaScript.
 
-Scroll through little love notes, play a cat game, and explore a surprise — all wrapped in
-a soft, dreamy world that changes colors as you go, just like my heart does when you smile.
+The homepage is a full-screen scrolling experience with:
 
-Made with: HTML · CSS · Vanilla JS · and a lot of love 🌸
+- a splash intro and background music toggle
+- 25 cat-photo quote cards
+- a main 4-button action section
+- a larger feature grid with the rest of the surprise pages
+- a live "time since we started talking" section
 
-"I choose you in every lifetime, every meow, every purr 💘"
+## Main Sections
 
-birthday, love, cats, html, css, javascript, gift
+### Home
+
+[`html/index.html`](./html/index.html) is the main landing page. It uses smooth snap-style scrolling, animated quote cards, floating background effects, and feature shortcuts to the rest of the project.
+
+### From Minku
+
+- Love Letter
+- Reasons I Love You
+- Compliment Generator
+
+### Masti
+
+- Catch the Hearts
+- Scratch Card
+- Relationship Quiz
+- Spin the Wheel
+
+### Visuals
+
+- Constellation Canvas
+- Petals Falling
+- Polaroid Wall
+- Color Mood
+- Fireworks
+
+### Mujik
+
+- Playlist Page
+- Voice Message
+
+### Nego
+
+- Cat Cursor
+- Cat Facts
+- Cat Gallery
+
+### Doggo
+
+- Dog Facts
+- Fetch Game
+- Doggo Gallery
+
+### Mystic Corner
+
+- Tarot Card Pull
+- Fortune Omamori
+- Would You Rather
+- Astrology Match
+
+### Dudu and Bubu
+
+- [`html/random-vibe.html`](./html/random-vibe.html): shows random Dudu/Bubu GIF vibes
+- [`html/dudu-bubu.html`](./html/dudu-bubu.html): mood-match landing page
+- [`html/dudu-mood.html`](./html/dudu-mood.html): Dudu emotion picker
+- [`html/bubu-mood.html`](./html/bubu-mood.html): Bubu emotion picker
+
+## Notes
+
+- The old visitor log feature has been removed.
+- The music visualizer feature has been removed.
+- Styling for the homepage is mainly in [`css/index.css`](./css/index.css).
+
+Built with love, chaos, and a lot of cat energy.
