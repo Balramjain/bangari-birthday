@@ -87,6 +87,8 @@
     const btn = document.getElementById("musicBtn");
     const quickNavBtn = document.getElementById("quickNavBtn");
     const scrollTargetKey = "scrollTarget";
+    const isTouchViewport = window.matchMedia("(pointer: coarse)").matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     if ("scrollRestoration" in history) {
       history.scrollRestoration = "manual";
     }
@@ -106,7 +108,7 @@
       if (cameFromPage && scrollTarget) {
         const el = document.getElementById(scrollTarget);
         if (el) {
-          el.scrollIntoView({ behavior: "smooth", block: "center" });
+          el.scrollIntoView({ behavior: getScrollBehavior(), block: "center" });
         }
         sessionStorage.removeItem(scrollTargetKey);
         return true;
@@ -128,6 +130,10 @@
       }
     }
 
+    function getScrollBehavior() {
+      return isTouchViewport || prefersReducedMotion.matches ? "auto" : "smooth";
+    }
+
     if (hasVisited) {
       // Skip splash
       document.getElementById("splash").style.display = "none";
@@ -144,7 +150,7 @@
       if (cameFromPage) {
         setTimeout(() => {
           if (!scrollToReturnTarget()) {
-            document.getElementById("actions").scrollIntoView({ behavior: "smooth", block: "start" });
+            document.getElementById("actions").scrollIntoView({ behavior: getScrollBehavior(), block: "start" });
           }
         }, 500);
       } else {
@@ -157,7 +163,7 @@
       if (cameFromPage) {
         setTimeout(() => {
           if (!scrollToReturnTarget()) {
-            document.getElementById("actions").scrollIntoView({ behavior: "smooth", block: "start" });
+            document.getElementById("actions").scrollIntoView({ behavior: getScrollBehavior(), block: "start" });
           }
         }, 100);
       } else {
@@ -194,6 +200,8 @@
     }
 
     let navDirection = "down";
+    let lastScrollY = window.scrollY;
+    let lastScrollDirection = "down";
 
     function getSnapSections() {
       return [
@@ -218,16 +226,41 @@
       return 0;
     }
 
+    function getSectionAnchorPositions(sections) {
+      return sections.map((section) => section.offsetTop);
+    }
+
     function getQuickNavState() {
       const sections = getSnapSections();
       const currentIndex = getCurrentSectionIndex(sections);
+      const anchorPositions = getSectionAnchorPositions(sections);
+      const scrollY = window.scrollY;
+      const tolerance = Math.max(window.innerHeight * 0.08, 36);
 
       if (!sections.length || currentIndex === -1) {
         return { direction: navDirection, type: "section", section: sections[0] || null };
       }
 
-      if (currentIndex === 0) navDirection = "down";
-      if (currentIndex === sections.length - 1) navDirection = "up";
+      for (let i = 0; i < anchorPositions.length - 1; i += 1) {
+        const currentTop = anchorPositions[i];
+        const nextTop = anchorPositions[i + 1];
+        const inGap = scrollY > currentTop + tolerance && scrollY < nextTop - tolerance;
+
+        if (inGap) {
+          const direction = lastScrollDirection === "up" ? "up" : "down";
+          const section = direction === "up" ? sections[i] : sections[i + 1];
+          navDirection = direction;
+          return { direction, type: "section", section };
+        }
+      }
+
+      if (currentIndex === 0) {
+        navDirection = "down";
+      } else if (currentIndex === sections.length - 1) {
+        navDirection = "up";
+      } else {
+        navDirection = lastScrollDirection === "up" ? "up" : "down";
+      }
 
       if (navDirection === "down") {
         return { direction: "down", type: "section", section: sections[Math.min(currentIndex + 1, sections.length - 1)] };
@@ -245,15 +278,26 @@
       quickNavBtn.setAttribute("aria-label", state.direction === "down" ? "Scroll down" : "Scroll up");
     }
 
+    function handleQuickNavScrollState() {
+      const currentY = window.scrollY;
+
+      if (Math.abs(currentY - lastScrollY) > 2) {
+        lastScrollDirection = currentY > lastScrollY ? "down" : "up";
+        lastScrollY = currentY;
+      }
+
+      updateQuickNavBtn();
+    }
+
     quickNavBtn.addEventListener("click", () => {
       const state = getQuickNavState();
 
       if (state.type === "section" && state.section) {
-        state.section.scrollIntoView({ behavior: "smooth", block: "start" });
+        state.section.scrollIntoView({ behavior: getScrollBehavior(), block: "start" });
       }
     });
 
-    window.addEventListener("scroll", updateQuickNavBtn, { passive: true });
+    window.addEventListener("scroll", handleQuickNavScrollState, { passive: true });
     window.addEventListener("resize", updateQuickNavBtn);
     updateQuickNavBtn();
     window.addEventListener("load", updateQuickNavBtn);
@@ -359,7 +403,7 @@
 
     <div class="quote-block theme-mint anim-pop">
       <img src="../stickers/index_cat_stickers/cat1.jpg" class="sticker" alt="cat sticker">
-      <p class="quote">You are my little paw-tners in mischief and my forever cuddle mission.</p>
+      <p class="quote">You are my little paw-tner in mischief and my forever cuddle mission.</p>
     </div>
 
     <div class="quote-block theme-lilac anim-sway">

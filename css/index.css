@@ -702,8 +702,8 @@ body > *:not(.bg-effects) {
 /* Mobile performance tuning for smoother quote scroll */
 @media (max-width: 768px) {
   html {
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
+    scroll-snap-type: y proximity;
+    scroll-behavior: auto;
     scroll-padding-block: clamp(8px, 1.8vh, 18px);
   }
 
@@ -729,6 +729,8 @@ body > *:not(.bg-effects) {
 
   .quote-block {
     --quote-outer-gap: clamp(10px, 1.8vh, 18px);
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
     transition: opacity 0.68s ease, transform 0.68s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
