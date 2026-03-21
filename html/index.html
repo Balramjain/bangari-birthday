@@ -131,7 +131,7 @@
     }
 
     function getScrollBehavior() {
-      return isTouchViewport || prefersReducedMotion.matches ? "auto" : "smooth";
+      return prefersReducedMotion.matches ? "auto" : "smooth";
     }
 
     if (hasVisited) {

@@ -215,6 +215,10 @@ body > *:not(.bg-effects) {
   animation: quote-pastel 16s ease-in-out infinite;
 }
 
+.quote-block:last-child {
+  scroll-snap-stop: normal;
+}
+
 .quote-block.theme-rose {
   --c1: rgba(255, 238, 244, 0.84);
   --c2: rgba(255, 248, 252, 0.9);
@@ -702,8 +706,8 @@ body > *:not(.bg-effects) {
 /* Mobile performance tuning for smoother quote scroll */
 @media (max-width: 768px) {
   html {
-    scroll-snap-type: y proximity;
-    scroll-behavior: auto;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
     scroll-padding-block: clamp(8px, 1.8vh, 18px);
   }
 
@@ -729,9 +733,13 @@ body > *:not(.bg-effects) {
 
   .quote-block {
     --quote-outer-gap: clamp(10px, 1.8vh, 18px);
-    scroll-snap-align: none;
-    scroll-snap-stop: normal;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
     transition: opacity 0.68s ease, transform 0.68s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .quote-block:last-child {
+    scroll-snap-stop: normal;
   }
 
   .quote-block.revealed {
