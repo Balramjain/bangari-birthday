@@ -89,98 +89,110 @@
     const music = document.getElementById("bgMusic");
     const btn = document.getElementById("musicBtn");
     const quickNavBtn = document.getElementById("quickNavBtn");
-    const scrollTargetKey = "scrollTarget";
 
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // ─── Section IDs in order ───────────────────────────────────────────────
+    const SECTION_IDS = ["top-section", "actions", "more-actions", "time-since"];
 
-    if ("scrollRestoration" in history) {
-      history.scrollRestoration = "manual";
+    // ─── Which section owns a given button/element ID ───────────────────────
+    // If btn is inside #actions or #more-actions, we scroll to that section.
+    // For any other element, we walk up and find the nearest section.
+    function getSectionForElementId(elemId) {
+      const el = document.getElementById(elemId);
+      if (!el) return null;
+      // Walk up DOM to find a section with a known ID
+      let node = el;
+      while (node && node !== document.body) {
+        if (node.id && SECTION_IDS.includes(node.id)) return node;
+        node = node.parentElement;
+      }
+      return null;
     }
 
-    // --- Read and clear all session flags synchronously at startup ---
-    const hasVisited = localStorage.getItem("hasVisited");
-    const musicMuted = localStorage.getItem("musicMuted");
+    // ─── Session flags — read & clear synchronously ──────────────────────────
+    const hasVisited   = localStorage.getItem("hasVisited");
+    const musicMuted   = localStorage.getItem("musicMuted");
     const cameFromPage = sessionStorage.getItem("cameFromPage") === "true";
-    const scrollTarget = sessionStorage.getItem(scrollTargetKey);
+    const scrollTarget = sessionStorage.getItem("scrollTarget"); // element id that was clicked
     sessionStorage.removeItem("cameFromPage");
-    sessionStorage.removeItem(scrollTargetKey);
+    sessionStorage.removeItem("scrollTarget");
 
-    // Guard: ensures scroll init only fires once across load + pageshow
+    // ─── Misc ────────────────────────────────────────────────────────────────
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     let _scrollInitDone = false;
 
     function getScrollBehavior() {
       return prefersReducedMotion.matches ? "auto" : "smooth";
     }
 
-    function scrollToY(y) {
-      window.scrollTo({ top: y, behavior: getScrollBehavior() });
+    // Core scroll — always pixel-based, never scrollIntoView (avoids mobile chrome jump)
+    function scrollToY(y, behavior) {
+      window.scrollTo({ top: Math.max(0, Math.round(y)), behavior: behavior ?? getScrollBehavior() });
     }
 
-    function scrollToEl(el, block = "start") {
+    // Scroll to a section element's top, with an optional pixel offset for breathing room
+    function scrollToSection(el, nudge) {
       if (!el) return;
-      // Use offsetTop for reliable cross-device positioning (avoids mobile chrome resize jump)
-      const offset = block === "center"
-        ? el.offsetTop - window.innerHeight / 2 + el.offsetHeight / 2
-        : el.offsetTop;
-      scrollToY(Math.max(0, offset));
+      // offsetTop is measured from document top — stable across all devices
+      scrollToY(el.offsetTop - (nudge ?? 0));
     }
 
+    // Save which element was clicked so we know which section to return to
     function setReturnTarget(id) {
       sessionStorage.setItem("cameFromPage", "true");
-      sessionStorage.setItem(scrollTargetKey, id);
+      sessionStorage.setItem("scrollTarget", id);
     }
 
-    function scrollToReturnTarget() {
-      if (!cameFromPage || !scrollTarget) return false;
-      const el = document.getElementById(scrollTarget);
-      if (el) {
-        scrollToEl(el, "center");
-        return true;
+    // ─── Return scroll (coming back from a sub-page) ─────────────────────────
+    function doReturnScroll() {
+      // Find which section the clicked element belongs to
+      const section = scrollTarget ? getSectionForElementId(scrollTarget) : null;
+
+      if (section) {
+        // Scroll to the section top with a small breathing room (16px)
+        scrollToSection(section, 16);
+        return;
       }
-      return false;
+
+      // Fallback: scroll to #actions
+      const fallback = document.getElementById("actions");
+      if (fallback) scrollToSection(fallback, 16);
     }
 
+    // ─── Init — fires exactly once ────────────────────────────────────────────
     function initScrollPosition() {
       if (_scrollInitDone) return;
       _scrollInitDone = true;
 
       if (cameFromPage) {
-        setTimeout(() => {
-          if (!scrollToReturnTarget()) {
-            const actionsEl = document.getElementById("actions");
-            if (actionsEl) scrollToEl(actionsEl, "start");
-          }
-        }, 120);
+        // Wait for full layout — fonts + images need to settle on mobile.
+        // 350ms is enough for first paint + font swap without feeling sluggish.
+        setTimeout(doReturnScroll, 350);
       } else {
-        // Fresh open: snap to top immediately, no rAF loop
+        // Hard snap to top, no animation — fresh open should always start at top
         window.scrollTo(0, 0);
       }
     }
 
-    // --- Init on load ---
+    // ─── Startup ──────────────────────────────────────────────────────────────
     if (hasVisited) {
       document.getElementById("splash").style.display = "none";
-
       if (musicMuted === "true") {
         btn.innerText = "🔇";
       } else {
         btn.innerText = "🔊";
         music.play().catch(() => {});
       }
-
       initScrollPosition();
     }
 
-    // --- pageshow handles bfcache restores (back/forward navigation on mobile) ---
+    // pageshow: handles bfcache (mobile back/forward — browser already restored position)
     window.addEventListener("pageshow", (e) => {
-      if (e.persisted) {
-        // Browser restored from bfcache — scroll position is already correct, don't touch it
-        return;
-      }
+      if (e.persisted) return; // bfcache restore — don't touch scroll
       initScrollPosition();
     });
 
-    // --- Site entry from splash ---
+    // ─── Site entry from splash ───────────────────────────────────────────────
     function startSite() {
       if (document.getElementById("splash").style.display === "none") return;
       localStorage.setItem("hasVisited", "true");
@@ -205,92 +217,92 @@
       setTimeout(() => btn.style.transform = "scale(1) rotate(0deg)", 300);
     }
 
-    // --- Quick nav state ---
-    let lastScrollY = window.scrollY;
-    let lastScrollDirection = "down";
-    let navDirection = "down";
+    // ─── Quick-nav button ─────────────────────────────────────────────────────
+    let lastScrollY        = window.scrollY;
+    let lastScrollDir      = "down";
+    let navDir             = "down";
 
-    function getSnapSections() {
-      return [
-        document.getElementById("top-section"),
-        document.getElementById("actions"),
-        document.getElementById("more-actions"),
-        document.getElementById("time-since"),
-      ].filter(Boolean);
+    function getSections() {
+      return SECTION_IDS.map(id => document.getElementById(id)).filter(Boolean);
     }
 
-    function getCurrentSectionIndex(sections) {
-      if (!sections.length) return 0;
-      const probeY = window.scrollY + Math.min(window.innerHeight * 0.28, 220);
+    // Which section index are we currently "inside"?
+    function getCurrentIdx(sections) {
+      // Use 30% from top of viewport as probe point
+      const probe = window.scrollY + window.innerHeight * 0.3;
       for (let i = sections.length - 1; i >= 0; i--) {
-        if (probeY >= sections[i].offsetTop) return i;
+        if (probe >= sections[i].offsetTop) return i;
       }
       return 0;
     }
 
-    function getQuickNavState() {
-      const sections = getSnapSections();
-      const currentIndex = getCurrentSectionIndex(sections);
-      const scrollY = window.scrollY;
-      const tolerance = Math.max(window.innerHeight * 0.08, 36);
+    function getNavState() {
+      const sections = getSections();
+      if (!sections.length) return { dir: "down", target: null };
 
-      if (!sections.length) return { direction: "down", section: null };
+      const idx   = getCurrentIdx(sections);
+      const scrollY = window.scrollY;
+      // Dead-zone: if we're more than 60px past a section top but not yet
+      // 60px into the next, prefer to snap toward scroll direction.
+      const zone = 60;
 
       for (let i = 0; i < sections.length - 1; i++) {
-        const currentTop = sections[i].offsetTop;
-        const nextTop = sections[i + 1].offsetTop;
-        const inGap = scrollY > currentTop + tolerance && scrollY < nextTop - tolerance;
-        if (inGap) {
-          const direction = lastScrollDirection === "up" ? "up" : "down";
-          return { direction, section: direction === "up" ? sections[i] : sections[i + 1] };
+        const inZone = scrollY > sections[i].offsetTop + zone
+                    && scrollY < sections[i + 1].offsetTop - zone;
+        if (inZone) {
+          const d = lastScrollDir === "up" ? "up" : "down";
+          return { dir: d, target: d === "up" ? sections[i] : sections[i + 1] };
         }
       }
 
-      if (currentIndex === 0) navDirection = "down";
-      else if (currentIndex === sections.length - 1) navDirection = "up";
-      else navDirection = lastScrollDirection === "up" ? "up" : "down";
+      // At a section — decide next based on position + direction
+      if (idx === 0)                      navDir = "down";
+      else if (idx === sections.length-1) navDir = "up";
+      else                                navDir = lastScrollDir === "up" ? "up" : "down";
 
-      const nextIndex = navDirection === "down"
-        ? Math.min(currentIndex + 1, sections.length - 1)
-        : Math.max(currentIndex - 1, 0);
+      const nextIdx = navDir === "down"
+        ? Math.min(idx + 1, sections.length - 1)
+        : Math.max(idx - 1, 0);
 
-      return { direction: navDirection, section: sections[nextIndex] };
+      return { dir: navDir, target: sections[nextIdx] };
     }
 
-    function updateQuickNavBtn() {
-      const state = getQuickNavState();
-      quickNavBtn.dataset.targetId = state.section ? (state.section.id || "") : "";
-      quickNavBtn.innerText = state.direction === "down" ? "⤵" : "⤴";
-      quickNavBtn.setAttribute("aria-label", state.direction === "down" ? "Scroll down" : "Scroll up");
+    function refreshNavBtn() {
+      const { dir, target } = getNavState();
+      quickNavBtn.innerText = dir === "down" ? "⤵" : "⤴";
+      quickNavBtn.setAttribute("aria-label", dir === "down" ? "Scroll down" : "Scroll up");
+      quickNavBtn._navTarget = target;
     }
 
-    // Button click: use scrollToEl for consistent mobile behavior
     quickNavBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      const state = getQuickNavState();
-      if (state.section) scrollToEl(state.section, "start");
+      const { target } = getNavState();
+      if (target) scrollToSection(target, 0);
     });
 
-    // Throttled scroll listener via rAF
-    let scrollTicking = false;
+    // Single unified passive scroll listener — handles direction tracking,
+    // nav button update, AND background blend all in one rAF tick.
+    let rafPending = false;
     window.addEventListener("scroll", () => {
-      const currentY = window.scrollY;
-      if (Math.abs(currentY - lastScrollY) > 2) {
-        lastScrollDirection = currentY > lastScrollY ? "down" : "up";
-        lastScrollY = currentY;
+      const y = window.scrollY;
+      if (Math.abs(y - lastScrollY) > 1) {
+        lastScrollDir = y > lastScrollY ? "down" : "up";
+        lastScrollY   = y;
       }
-      if (!scrollTicking) {
+      if (!rafPending) {
+        rafPending = true;
         requestAnimationFrame(() => {
-          updateQuickNavBtn();
-          scrollTicking = false;
+          refreshNavBtn();
+          updateBgBlend();
+          rafPending = false;
         });
-        scrollTicking = true;
       }
     }, { passive: true });
 
-    window.addEventListener("resize", updateQuickNavBtn);
-    window.addEventListener("load", updateQuickNavBtn);
-    updateQuickNavBtn();
+    window.addEventListener("resize", refreshNavBtn);
+    // Defer first nav button paint until layout is ready
+    window.addEventListener("load", refreshNavBtn);
+    refreshNavBtn();
   </script>
 
   <!-- ✨ BACKGROUND ANIMATIONS -->
@@ -609,26 +621,15 @@
 
     document.body.style.backgroundColor = `rgb(${startColor.join(",")})`;
 
-    const updateBackgroundBlend = () => {
+    // updateBgBlend is called from the unified rAF scroll handler above
+    function updateBgBlend() {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const progress = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0;
-
       const r = Math.round(startColor[0] + (endColor[0] - startColor[0]) * progress);
       const g = Math.round(startColor[1] + (endColor[1] - startColor[1]) * progress);
       const b = Math.round(startColor[2] + (endColor[2] - startColor[2]) * progress);
-
       document.body.style.backgroundColor = `rgb(${r},${g},${b})`;
-    };
-
-    let bgTicking = false;
-    window.addEventListener("scroll", () => {
-      if (bgTicking) return;
-      bgTicking = true;
-      requestAnimationFrame(() => {
-        updateBackgroundBlend();
-        bgTicking = false;
-      });
-    }, { passive: true });
+    }
   </script>
 
   <script>
