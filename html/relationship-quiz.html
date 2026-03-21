@@ -1,259 +1,589 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  <title>How Well Do You Know Us</title>
+  <title>How Well Do You Know Us 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    @font-face {
-      font-family: "CutiePatootie";
-      src: url("../fonts/CutiePatootie-Rgjv.ttf") format("truetype");
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: "Wildcrazy";
-      src: url("../fonts/Wildcrazy-WKYO.ttf") format("truetype");
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: "Cookiemonster";
-      src: url("../fonts/Cookiemonster-gv11.ttf") format("truetype");
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: "LoveMaulidah";
-      src: url("../fonts/LoveMaulidah-KVAoA.otf") format("opentype");
-      font-display: swap;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f5fff4;
-      --bg-2: #f1f6ff;
-      --card: #ffffffcc;
-      --ink: #2a2a3b;
-      --accent: #b8f1a6;
-      --accent-2: #b9d7ff;
+      --bg:       #fdf6f0;
+      --card:     #fffaf6;
+      --pink:     #f4a7b9;
+      --pink2:    #fce4ec;
+      --green:    #b8f1c0;
+      --green2:   #e8faea;
+      --red:      #ff6b6b;
+      --ink:      #2d2438;
+      --muted:    #7a6d7f;
+      --border:   rgba(244,167,185,0.35);
+      --shadow:   0 8px 32px rgba(180,120,140,0.13);
     }
 
     body {
-      font-family: "LoveMaulidah", sans-serif;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
       color: var(--ink);
-      background: linear-gradient(140deg, var(--bg), var(--bg-2));
       min-height: 100vh;
-      padding: 24px 16px 80px;
       overflow-x: hidden;
+      padding-bottom: 100px;
     }
 
-    body > @font-face {
-      font-family: "LoveMaulidah";
-      src: url("../fonts/LoveMaulidah-KVAoA.otf") format("opentype");
-      font-display: swap;
+    /* ── floating blobs bg ── */
+    .blobs {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(60px); opacity: 0.18;
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+    .blob:nth-child(1){ width:380px;height:380px;background:#f9c5d1;top:-80px;left:-60px;animation-duration:20s; }
+    .blob:nth-child(2){ width:300px;height:300px;background:#b8f1c0;bottom:-60px;right:-40px;animation-duration:24s; }
+    .blob:nth-child(3){ width:220px;height:220px;background:#fce4ec;top:40%;left:60%;animation-duration:16s; }
+    @keyframes drift {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(30px,20px) scale(1.08); }
     }
 
-    * {
-      position: relative;
-      z-index: 2;
-    }
-
-    .bg-sparkles {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .bg-sparkles span {
-      position: absolute;
-      width: var(--size);
-      height: var(--size);
-      border-radius: 999px;
-      background: var(--accent-2);
-      opacity: 0.45;
-      filter: blur(0.2px);
-      animation: float 10s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0) translateX(0) scale(1); }
-      50% { transform: translateY(-16px) translateX(10px) scale(1.06); }
-      100% { transform: translateY(0) translateX(0) scale(1); }
-    }
-
+    /* ── header ── */
     header {
       text-align: center;
-      margin: 12px auto 22px;
-      max-width: 900px;
+      padding: 52px 24px 24px;
+      position: relative; z-index: 2;
     }
-
     header h1 {
-      font-family: "CutiePatootie", cursive;
-      font-size: clamp(2.2rem, 6vw, 3.4rem);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-style: italic;
+      background: linear-gradient(135deg, #c2667a, #8b5e8b);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
     }
-
     header p {
-      margin-top: 8px;
-      font-size: 1.1rem;
-      opacity: 0.8;
+      margin-top: 10px;
+      font-size: 1rem;
+      color: var(--muted);
+      font-weight: 300;
     }
-.back-btn {
-      position: fixed;
-      left: 20px;
-      bottom: 20px;
-      z-index: 30;
-      border: none;
-      border-radius: 999px;
-      padding: 10px 18px;
-      font-family: "CutiePatootie", cursive;
-      font-size: 1.1rem;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.86);
-      color: #000;
-      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
-      transition: transform 220ms ease, box-shadow 220ms ease;
+    .heart-divider {
+      margin: 16px auto 0;
+      font-size: 1.3rem;
+      letter-spacing: 6px;
+      opacity: 0.55;
     }
 
-    .back-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.25);
+    /* ── progress ── */
+    .progress-wrap {
+      position: relative; z-index: 2;
+      max-width: 560px; margin: 0 auto 10px;
+      padding: 0 24px;
     }
-    .panel {
-      width: min(980px, 92vw);
-      margin: 0 auto;
-      padding: 28px;
-      border-radius: 26px;
-      background-image: url("https://images.unsplash.com/photo-1761626677340-dd264ebedfd4?auto=format&fit=crop&fm=jpg&q=80&w=2000");
-      background-size: cover;
-      background-position: center;
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
-      min-height: 65vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
+    .progress-meta {
+      display: flex; justify-content: space-between;
+      font-size: 0.8rem; color: var(--muted); margin-bottom: 6px;
+    }
+    .progress-bar {
+      height: 6px; border-radius: 99px;
+      background: rgba(244,167,185,0.2);
       overflow: hidden;
     }
-
-    .panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(150deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78));
+    .progress-fill {
+      height: 100%; border-radius: 99px;
+      background: linear-gradient(90deg, var(--pink), #c2667a);
+      transition: width 0.45s cubic-bezier(.4,0,.2,1);
     }
 
-    .panel > @font-face {
-      font-family: "LoveMaulidah";
-      src: url("../fonts/LoveMaulidah-KVAoA.otf") format("opentype");
-      font-display: swap;
+    /* ── card ── */
+    .quiz-card {
+      position: relative; z-index: 2;
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+    .card-inner {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 32px 28px 28px;
+      box-shadow: var(--shadow);
+      animation: cardIn 0.38s cubic-bezier(.4,0,.2,1) both;
+    }
+    @keyframes cardIn {
+      from { opacity:0; transform: translateY(18px) scale(0.98); }
+      to   { opacity:1; transform: translateY(0) scale(1); }
+    }
+    .q-number {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      color: var(--pink);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .q-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 3.5vw, 1.38rem);
+      line-height: 1.5;
+      color: var(--ink);
+      margin-bottom: 28px;
+      min-height: 58px;
     }
 
-    * {
-      position: relative;
-      z-index: 1;
+    /* ── options ── */
+    .options {
+      display: grid;
+      gap: 10px;
     }
-
-    .mini-panel {
-      padding: 16px;
+    .opt-btn {
+      width: 100%;
+      padding: 13px 18px;
+      border: 1.5px solid var(--border);
       border-radius: 16px;
-      background: rgba(255, 255, 255, 0.88);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+      background: var(--card);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      position: relative;
+      overflow: hidden;
+      line-height: 1.4;
+    }
+    .opt-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--pink2);
+      opacity: 0;
+      transition: opacity 0.18s;
+    }
+    .opt-btn:hover::before { opacity: 1; }
+    .opt-btn:hover { border-color: var(--pink); transform: translateX(4px); }
+    .opt-btn span { position: relative; z-index: 1; }
+
+    .opt-btn.correct {
+      border-color: #7ecb8c;
+      background: var(--green2);
+      transform: none;
+    }
+    .opt-btn.correct::before { opacity: 0; }
+    .opt-btn.wrong {
+      border-color: var(--red);
+      background: #fff0f0;
+    }
+    .opt-btn.wrong::before { opacity: 0; }
+    .opt-btn:disabled { cursor: not-allowed; pointer-events: none; }
+
+    /* ── feedback ── */
+    .feedback {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      display: none;
+    }
+    .feedback.show { display: block; animation: fadeUp 0.3s ease; }
+    .feedback.correct-fb { background: var(--green2); color: #2a6b3a; border: 1px solid #7ecb8c; }
+    .feedback.wrong-fb   { background: #fff0f0; color: #a03030; border: 1px solid #f4a0a0; }
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(8px); }
+      to   { opacity:1; transform: translateY(0); }
     }
 
-    @media (max-width: 700px) {
-      .panel {
-        min-height: 70vh;
-        padding: 22px;
-      }
-    }
-.row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      align-items: center;
-    }
-
-    .primary-btn {
+    /* ── next btn ── */
+    .next-btn {
+      display: none;
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
       border: none;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #f4a7b9, #c2667a);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 6px 20px rgba(194,102,122,0.3);
+    }
+    .next-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(194,102,122,0.4); }
+    .next-btn.show { display: block; animation: fadeUp 0.3s ease; }
+
+    /* ── score screen ── */
+    #score-screen {
+      display: none;
+      position: relative; z-index: 2;
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+    .score-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 40px 28px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      animation: cardIn 0.5s ease both;
+    }
+    .score-emoji { font-size: 3.5rem; margin-bottom: 14px; }
+    .score-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 5vw, 2.2rem);
+      font-style: italic;
+      margin-bottom: 10px;
+      color: var(--ink);
+    }
+    .score-sub { font-size: 0.95rem; color: var(--muted); margin-bottom: 28px; line-height: 1.6; }
+    .score-big {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #c2667a, #8b5e8b);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .score-label { font-size: 0.85rem; color: var(--muted); margin-bottom: 32px; }
+    .score-msg {
+      background: var(--pink2);
+      border-radius: 18px;
+      padding: 18px 22px;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #6b3050;
+      margin-bottom: 28px;
+    }
+    .retry-btn {
+      border: 2px solid var(--pink);
+      border-radius: 16px;
+      padding: 12px 32px;
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      color: #c2667a;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .retry-btn:hover { background: var(--pink2); transform: translateY(-2px); }
+
+    /* ── back btn ── */
+    .back-btn {
+      position: fixed; left: 20px; bottom: 22px; z-index: 30;
+      border: 1.5px solid var(--border);
       border-radius: 999px;
-      padding: 10px 18px;
-      font-family: "Cookiemonster", sans-serif;
-      font-size: 1.05rem;
+      padding: 10px 20px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
       cursor: pointer;
-      background: var(--accent);
-      color: #2b2b3a;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background: rgba(255,255,255,0.92);
+      color: var(--ink);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+      backdrop-filter: blur(8px);
+    }
+    .back-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,0.16); }
+
+    /* ── sparkles ── */
+    .sparkle-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 99; }
+    .sparkle {
+      position: absolute;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      pointer-events: none;
+      animation: sparkle-pop 0.6s ease forwards;
+    }
+    @keyframes sparkle-pop {
+      0%   { opacity:1; transform: scale(0) translate(0,0); }
+      60%  { opacity:1; }
+      100% { opacity:0; transform: scale(1) translate(var(--dx), var(--dy)); }
     }
 
-    .primary-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 26px rgba(0, 0, 0, 0.18);
-    }
-
-    .tiny-btn {
-      border: none;
-      border-radius: 10px;
-      padding: 6px 12px;
-      font-family: "Cookiemonster", sans-serif;
-      cursor: pointer;
-      background: var(--accent-2);
-      color: #2b2b3a;
-    }
-
-    .quiz-options{display:grid;gap:8px;}
-  
-    body, body * {
-      font-family: "LoveMaulidah", "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif !important;
+    @media (max-width: 480px) {
+      .card-inner { padding: 24px 18px 22px; }
+      .q-text { font-size: 1.1rem; }
     }
   </style>
-  <script defer src="../js/site-runtime.js?v=20260321-runtime1"></script>
 </head>
 <body>
-  <div class="bg-sparkles" aria-hidden="true">
-    <span style="--size: 10px; left: 8%; top: 12%;"></span>
-    <span style="--size: 16px; left: 18%; top: 24%;"></span>
-    <span style="--size: 12px; left: 32%; top: 10%;"></span>
-    <span style="--size: 14px; left: 44%; top: 22%;"></span>
-    <span style="--size: 9px; left: 56%; top: 14%;"></span>
-    <span style="--size: 13px; left: 66%; top: 30%;"></span>
-    <span style="--size: 11px; left: 78%; top: 16%;"></span>
-    <span style="--size: 15px; left: 88%; top: 28%;"></span>
-    <span style="--size: 9px; left: 12%; top: 70%;"></span>
-    <span style="--size: 12px; left: 36%; top: 78%;"></span>
-    <span style="--size: 14px; left: 64%; top: 74%;"></span>
-    <span style="--size: 10px; left: 84%; top: 68%;"></span>
+
+<div class="blobs">
+  <div class="blob"></div>
+  <div class="blob"></div>
+  <div class="blob"></div>
+</div>
+<div class="sparkle-wrap" id="sparkleWrap"></div>
+
+<button class="back-btn" onclick="sessionStorage.setItem('cameFromPage','true'); location.href='index.html';">← Go Back</button>
+
+<header>
+  <h1>How Well Do You Know Us?</h1>
+  <p>50 questions, no cheating, only vibes 🌸</p>
+  <div class="heart-divider">♡ ♡ ♡</div>
+</header>
+
+<div class="progress-wrap" id="progressWrap">
+  <div class="progress-meta">
+    <span id="qCounter">Question 1 of 50</span>
+    <span id="scoreTracker">Score: 0</span>
   </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:2%"></div></div>
+</div>
 
-  <button class="back-btn" onclick="sessionStorage.setItem('cameFromPage','true'); location.href='index.html?v=20260315';">
-    Go Back
-  </button>
+<div class="quiz-card" id="quizCard">
+  <div class="card-inner" id="cardInner">
+    <div class="q-number" id="qNumber">Question 01</div>
+    <div class="q-text" id="qText"></div>
+    <div class="options" id="optionsContainer"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()"></button>
+  </div>
+</div>
 
-  <header></div>
-    <h1>How Well Do You Know Us</h1>
-    <p>A tiny quiz with a big smile at the end.</p>
-  </header>
+<div id="score-screen">
+  <div class="score-card">
+    <div class="score-emoji" id="scoreEmoji"></div>
+    <div class="score-title" id="scoreTitle"></div>
+    <div class="score-big" id="scoreBig"></div>
+    <div class="score-label">out of 50</div>
+    <div class="score-msg" id="scoreMsg"></div>
+    <button class="retry-btn" onclick="restartQuiz()">Play Again 🔄</button>
+  </div>
+</div>
 
-  <section class="panel">
-    <div><strong>Where was our first date?</strong></div><div class="quiz-options"><button class="tiny-btn quiz-option">The cafe</button><button class="tiny-btn quiz-option">The park</button><button class="tiny-btn quiz-option">The beach</button></div><div id="quizResult"></div>
-  </section>
+<script>
+const questions = [
+  // ── Personal / relationship ──
+  { q: "Seri, when did we first start talking to each other?", opts: ["12th Feb 2019","14th Feb 2019","1st Jan 2019","20th March 2019"], ans: 0, fact: "Yep! 12th February 2019 — that's when it all started da! 🥺" },
+  { q: "Okay now tell — where exactly did he propose to you?", opts: ["Coffee shop","Sherwood walking track","Beach side","Some random park"], ans: 1, fact: "Sherwood walking track! He was so nervous ugh 🥹" },
+  { q: "When did the big proposal happen?", opts: ["13th June 2019","14th Feb 2019","1st July 2019","13th July 2019"], ans: 0, fact: "June 13th, 2019. A date to remember forever 💍" },
+  { q: "What did he give her during the proposal?", opts: ["Big red roses","Small colourful flowers","Chocolates","A teddy bear"], ans: 1, fact: "Small colourful flowers — simple but so so sweet la! 🌸" },
+  { q: "From first talking to proposing, how long did he wait?", opts: ["1 week","4 months","Over a year","6 months"], ans: 1, fact: "About 4 months! Patient guy da 😂" },
 
-  <script>
-    document.querySelectorAll(".quiz-option").forEach(btn=>{ btn.addEventListener("click",()=>{ const ok=btn.textContent.toLowerCase().includes("cafe"); document.getElementById("quizResult").textContent=ok?"Correct!":"Try again.";});});
-  </script>
+  // ── His interests — cars ──
+  { q: "He is obsessed with cars. Which brand is his top love?", opts: ["Mercedes","Audi","BMW","Toyota"], ans: 2, fact: "BMW all day every day! The kidney grille hit different 😤" },
+  { q: "Which BMW series does he mostly fanboy about?", opts: ["1 Series & 2 Series","3 Series & 5 Series","7 Series & X5","M8 only"], ans: 1, fact: "3 Series and 5 Series — clean, sporty, perfect da! 🚘" },
+  { q: "What trim/variant does he love most in BMW?", opts: ["Luxury Line","M Sport","xDrive","Base model lol"], ans: 1, fact: "M Sport! That body kit and sporty bits? Chef's kiss 🔥" },
+  { q: "If he had to pick one Porsche, what would it be?", opts: ["Cayenne","Macan","911 GT3 RS","Panamera"], ans: 2, fact: "Porsche 911 GT3 RS — naturally aspirated engine music is unmatched 🏎️" },
+  { q: "What makes the 911 GT3 RS so special to him?", opts: ["It's cheap","It's a family car","Track-focused NA engine beast","Good fuel economy"], ans: 2, fact: "Track beast with a naturally aspirated flat-six that sings at redline. Pure da! 🎶" },
+  { q: "If he got a BMW 3 Series today, which colour would he most likely pick?", opts: ["White","Beige","Black or Alpine White","Yellow"], ans: 2, fact: "Black or Alpine White — classic, clean, no nonsense 🖤🤍" },
+  { q: "He sees a BMW M3 Competition and a 911 GT3 RS parked side by side. He takes a photo of:", opts: ["Neither","Both obviously","Only the M3","Only the GT3 RS"], ans: 1, fact: "BOTH and then spends 10 mins explaining the differences 😂" },
+
+  // ── Bikes & adventure ──
+  { q: "Apart from cars, what else does he love riding?", opts: ["Scooters","Cycles only","Bikes (motorcycles)","Skateboards"], ans: 2, fact: "Bikes! Two wheels, full freedom 🏍️" },
+  { q: "His ideal weekend would include:", opts: ["Staying home and Netflix","Long bike ride and exploring","Shopping mall hangout","Sleeping all day"], ans: 1, fact: "Bike ride + exploring random places = perfect Saturday da! 🛣️" },
+  { q: "What kind of trips does he prefer?", opts: ["Luxury resort stays","Adventure and travel","City shopping trips","Staycations only"], ans: 1, fact: "Adventure and travel — the more crazy, the more fun for him! 🌍" },
+  { q: "If there's a trip planned, he would most likely:", opts: ["Research every single detail","Just show up and figure out","Cancel last minute","Only go if 5-star hotel"], ans: 0, fact: "He'll research the route, the bikes, the stops — full planner mode 😅" },
+  { q: "His travel style is best described as:", opts: ["Luxury only","Slow and relaxing","Fast, crazy and fun","I don't like travelling"], ans: 2, fact: "Fast, crazy and fun — that's literally his personality da! 🤪" },
+  { q: "What would he say if someone suggested a boring safe trip with zero adventure?", opts: ["Sounds amazing!","Okay la","No fun da, let's do something crazy","I'll come but only if there's AC"], ans: 2, fact: "He'd immediately start planning something wilder 😂" },
+
+  // ── Personality / general ──
+  { q: "Which one describes him best?", opts: ["Quiet and reserved","Loud and fun","Chill but secretly wild","Serious all the time"], ans: 2, fact: "Chill on the outside but absolute chaos on the inside 😂" },
+  { q: "He's the type of person who:", opts: ["Plans everything months ahead","Decides to go on a trip same day","Never leaves the house","Only does safe activities"], ans: 1, fact: "Same-day plan? Let's GO! That's his energy 🚀" },
+  { q: "What does he do when he's bored?", opts: ["Stare at walls","Car videos, bike rides or plan a trip","Cook elaborate meals","Nothing, stays bored"], ans: 1, fact: "YouTube car videos or just takes the bike out for a spin 🎥🏍️" },
+  { q: "Pick the sentence he'd most likely say:", opts: ["Let's be safe and stay home","Dei let's go yaar, don't overthink","I'm too tired","Maybe next time"], ans: 1, fact: "'Dei let's go yaar' is his whole personality 😂" },
+  { q: "If he could have one superpower it would be:", opts: ["Invisibility","Fly anywhere instantly like a GPS drone","Mind reading","Super strength"], ans: 1, fact: "Fly instantly so he can explore every road trip destination 😄" },
+  { q: "His love language is mostly:", opts: ["Words only","Quality time and doing things together","Just gifts","Silent treatment"], ans: 1, fact: "Spending quality time, going on rides, making memories — that's his love language 💛" },
+  { q: "If she needs help with something, he:", opts: ["Ignores it","Figures it out no matter what","Says ask someone else","Panics and leaves"], ans: 1, fact: "He'll figure it out — stubbornly helpful like that 🤓" },
+
+  // ── Relationship trivia ──
+  { q: "What year did everything start?", opts: ["2017","2018","2019","2020"], ans: 2, fact: "2019 was the year! From strangers to everything 🥹" },
+  { q: "The first conversation happened in which month?", opts: ["January","February","March","June"], ans: 1, fact: "February 2019 — peak romance month la! 💌" },
+  { q: "The proposal was in which month?", opts: ["February","April","June","August"], ans: 2, fact: "June 13th, 2019. Right in the middle of the year 🌸" },
+  { q: "How many months between first talking and the proposal?", opts: ["2 months","4 months","8 months","12 months"], ans: 1, fact: "Roughly 4 months! Fast mover but the right kind 😌" },
+  { q: "The proposal spot — Sherwood. What kind of place is it?", opts: ["A fancy restaurant","A walking track / park area","A beach","A rooftop"], ans: 1, fact: "A walking track — peaceful, no crowd, just them and small colourful flowers 🌼" },
+  { q: "What was special about the flowers he gave?", opts: ["They were expensive","They were small and colourful","They were fake","They were a single rose"], ans: 1, fact: "Small and colourful — not show-off, but full of love da! 🌈🌸" },
+
+  // ── Food & daily life (generalised fun) ──
+  { q: "What kind of food vibe does he most likely enjoy?", opts: ["Only fine dining","Street food and good biryani","Diet food only","Doesn't care about food"], ans: 1, fact: "Street food and biryani hits different after a long bike ride 😋" },
+  { q: "His ideal Friday night is:", opts: ["Alone at home","Long drive or ride with her","Watching sad movies","Sleeping at 9 PM"], ans: 1, fact: "Long drive, good music, her company — perfect Friday da! 🌙" },
+  { q: "If she's sad, he most likely:", opts: ["Ignores it","Overthinks but still shows up","Sends a meme","Panics and runs"], ans: 1, fact: "Overthinks a little but always shows up — he cares too much 💙" },
+  { q: "They're planning a road trip. Who's driving?", opts: ["She is","He is — obviously","They take a cab","Nobody, they cancel"], ans: 1, fact: "Him. 100%. And he already has the playlist ready 😂" },
+  { q: "Pick his most used phrase:", opts: ["Whatever da","Dei come let's go!","I don't know la","Let me think about it"], ans: 1, fact: "'Dei come let's go!' — Bangalore maximum energy 😂" },
+  { q: "On a rainy day, what's he most likely doing?", opts: ["Sleeping all day","Going for a bike ride in the rain","Crying about the weather","Cancelling all plans"], ans: 1, fact: "Bike ride in the rain — he calls it 'vibes' 🌧️🏍️" },
+  { q: "His phone gallery is mostly full of:", opts: ["Selfies","Car and bike photos + trip pics","Food photos","Nothing, deleted everything"], ans: 1, fact: "Cars, bikes, roads, and some very chaotic trip photos 📸" },
+  { q: "He sees a BMW 5 Series M Sport on the road. He:", opts: ["Doesn't notice","Immediately points it out to her","Pretends he doesn't care","Takes 37 photos"], ans: 3, fact: "37 photos minimum and a full monologue about the specs 😂" },
+  { q: "What's his take on speed?", opts: ["Slow and steady","Speed is fun but safety matters","Doesn't care","Only slow roads"], ans: 1, fact: "Loves speed but knows when to be responsible — balance da! ⚡" },
+  { q: "If she buys him a gift, he prefers:", opts: ["Expensive jewellery","Something related to cars or bikes or travel","Clothes","He doesn't like gifts"], ans: 1, fact: "Anything car, bike or adventure related and he's over the moon 🎁" },
+
+  // ── Fun last batch ──
+  { q: "BMW 3 Series M Sport vs 5 Series M Sport — if he had to choose one?", opts: ["3 Series — sporty and nimble","5 Series — comfortable but still M Sport","Can't choose, both","Neither, give me the GT3 RS"], ans: 0, fact: "3 Series M Sport — lighter, more fun to drive, pure driving machine da! 🚗" },
+  { q: "He finds out there's a new GT3 RS variant with more downforce. His reaction?", opts: ["Meh, whatever","Full youtube deep dive that night","Doesn't care","Asks her to buy it"], ans: 1, fact: "Deep dive starting at 11 PM, eyes wide open at 2 AM 😂" },
+  { q: "She surprises him with a bike trip to Coorg. His face?", opts: ["Confused","Disappointed","Absolute pure joy — best reaction ever","Worried about packing"], ans: 2, fact: "Biggest smile, bag packed in 10 minutes flat 😍" },
+  { q: "What does he value most in a relationship?", opts: ["Money and status","Loyalty, fun and real connection","Looks only","Silence"], ans: 1, fact: "Loyalty + having fun together + being real — that's everything to him 💛" },
+  { q: "If he had to describe her in one word?", opts: ["Annoying (jk)","His person","Okay la","Fine I guess"], ans: 1, fact: "His person. Simple as that. Always. 🥹" },
+  { q: "What does February 12th mean to them?", opts: ["Nothing special","The day it all began 💫","Just another day","Her birthday"], ans: 1, fact: "The day two people started talking and changed each other's lives forever 💌" },
+  { q: "What does June 13th mean to them?", opts: ["Random Tuesday","The proposal date — he asked, she said yes 💍","Her cat's birthday","Nothing"], ans: 1, fact: "June 13th, 2019 — the day he asked and everything became official 🌸" },
+  { q: "At the end of the day, this relationship is best described as:", opts: ["Complicated","A beautiful adventure with the right person","Boring and routine","Still figuring it out"], ans: 1, fact: "A beautiful adventure — with bikes, BMWs, small colourful flowers, and a lot of love 💕" },
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// Shuffle questions order
+const shuffled = shuffle([...questions.map((q,i)=>({...q,_orig:i}))]);
+
+function loadQuestion() {
+  const q = shuffled[current];
+  answered = false;
+
+  const pct = Math.round(((current) / shuffled.length) * 100);
+  document.getElementById('progressFill').style.width = Math.max(pct, 2) + '%';
+  document.getElementById('qCounter').textContent = `Question ${current+1} of ${shuffled.length}`;
+  document.getElementById('scoreTracker').textContent = `Score: ${score}`;
+  document.getElementById('qNumber').textContent = `Question ${String(current+1).padStart(2,'0')}`;
+  document.getElementById('qText').textContent = q.q;
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+  fb.textContent = '';
+
+  const nb = document.getElementById('nextBtn');
+  nb.className = 'next-btn';
+  nb.textContent = current < shuffled.length - 1 ? 'Next Question →' : 'See My Score 🎉';
+
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+
+  // Shuffle opts while tracking correct index
+  const indices = q.opts.map((_,i)=>i);
+  const shuffledIdx = shuffle([...indices]);
+
+  shuffledIdx.forEach(origIdx => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span>${q.opts[origIdx]}</span>`;
+    btn.dataset.orig = origIdx;
+    btn.onclick = () => selectAnswer(btn, origIdx === q.ans, q);
+    container.appendChild(btn);
+  });
+
+  // Re-animate card
+  const inner = document.getElementById('cardInner');
+  inner.style.animation = 'none';
+  requestAnimationFrame(() => { inner.style.animation = ''; });
+}
+
+function selectAnswer(btn, isCorrect, q) {
+  if (answered) return;
+  answered = true;
+
+  const allBtns = document.querySelectorAll('.opt-btn');
+  allBtns.forEach(b => {
+    b.disabled = true;
+    if (parseInt(b.dataset.orig) === q.ans) b.classList.add('correct');
+  });
+
+  const fb = document.getElementById('feedback');
+  if (isCorrect) {
+    score++;
+    btn.classList.add('correct');
+    fb.className = 'feedback correct-fb show';
+    fb.textContent = '✓ Correct da! ' + q.fact;
+    spawnSparkles(btn, '#7ecb8c');
+  } else {
+    btn.classList.add('wrong');
+    fb.className = 'feedback wrong-fb show';
+    fb.textContent = '✗ Ayyo wrong! ' + q.fact;
+  }
+
+  document.getElementById('scoreTracker').textContent = `Score: ${score}`;
+  document.getElementById('nextBtn').classList.add('show');
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= shuffled.length) {
+    showScore();
+  } else {
+    loadQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function showScore() {
+  document.getElementById('quizCard').style.display = 'none';
+  document.getElementById('progressWrap').style.display = 'none';
+  const ss = document.getElementById('score-screen');
+  ss.style.display = 'block';
+
+  const pct = score / shuffled.length;
+  let emoji, title, msg;
+
+  if (pct >= 0.9) {
+    emoji = '🏆'; title = 'Soulmates confirmed da!';
+    msg = `${score}/50 — You know each other better than anyone else on this planet. From February 12th to June 13th to Sherwood walking track — you remember it all. BMWs, bike rides, crazy trips — you were there for every single bit of it. This is the real thing da! 💕`;
+  } else if (pct >= 0.75) {
+    emoji = '💕'; title = "Pretty close, not bad la!";
+    msg = `${score}/50 — You know the big stuff! The proposal at Sherwood, the small colourful flowers, the BMW obsession — all there. A few details slipped but honestly, you two just get each other 🌸`;
+  } else if (pct >= 0.55) {
+    emoji = '😊'; title = "Decent effort da!";
+    msg = `${score}/50 — You've got the vibes right even if some facts went fuzzy. Go re-read the love story from Feb 12th 2019 again and come back stronger! 🌼`;
+  } else if (pct >= 0.35) {
+    emoji = '😅'; title = "Aye, need to pay more attention!";
+    msg = `${score}/50 — Bro/gurl, the man proposed at Sherwood with small colourful flowers and drives BMWs. These are not secret facts 😂 Try again!`;
+  } else {
+    emoji = '😂'; title = "Were you even there??";
+    msg = `${score}/50 — Okay this is rough da. Start from February 12th 2019, read slowly, and come back. We believe in you! 💀`;
+  }
+
+  document.getElementById('scoreEmoji').textContent = emoji;
+  document.getElementById('scoreTitle').textContent = title;
+  document.getElementById('scoreBig').textContent = score;
+  document.getElementById('scoreMsg').textContent = msg;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function restartQuiz() {
+  current = 0; score = 0;
+  shuffle(shuffled);
+  document.getElementById('score-screen').style.display = 'none';
+  document.getElementById('quizCard').style.display = 'block';
+  document.getElementById('progressWrap').style.display = 'block';
+  loadQuestion();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function spawnSparkles(el, color) {
+  const wrap = document.getElementById('sparkleWrap');
+  const rect = el.getBoundingClientRect();
+  const cx = rect.left + rect.width / 2;
+  const cy = rect.top + rect.height / 2;
+  const colors = ['#f4a7b9','#b8f1c0','#ffd700','#c2667a','#7ecb8c'];
+  for (let i = 0; i < 10; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    const angle = (i / 10) * 360;
+    const dist = 40 + Math.random() * 40;
+    const dx = Math.cos(angle * Math.PI/180) * dist + 'px';
+    const dy = Math.sin(angle * Math.PI/180) * dist + 'px';
+    s.style.cssText = `left:${cx}px;top:${cy}px;background:${colors[i%colors.length]};--dx:${dx};--dy:${dy};`;
+    wrap.appendChild(s);
+    setTimeout(() => s.remove(), 700);
+  }
+}
+
+// Init
+loadQuestion();
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
